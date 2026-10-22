@@ -1,0 +1,40 @@
+@model ProfileInput
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSRF Protection Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #f4f7fb; color: #152238; margin: 0; }
+    main { max-width: 660px; margin: 70px auto; padding: 30px; background: white; border-radius: 14px; box-shadow: 0 8px 32px #10203016; }
+    label { display: block; margin: 18px 0 6px; font-weight: 600; }
+    input { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #aab7c8; border-radius: 7px; }
+    button { margin-top: 16px; padding: 12px 18px; background: #175cd3; color: white; border: 0; border-radius: 7px; cursor: pointer; }
+    .ok { padding: 12px; background: #e6f7ed; border-radius: 6px; }
+    .note { padding: 12px; background: #edf2fa; border-radius: 6px; }
+    .error { color: #a11; }
+    code { background: #f0f2f5; padding: 2px 5px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>CSRF Protection Demo</h1>
+  <p>Exemplo didático de proteção antifalsificação em ASP.NET Core MVC.</p>
+  @if (TempData["Success"] is string success) { <p class="ok">@success</p> }
+  <form asp-controller="Home" asp-action="Save" method="post">
+    @* O Form Tag Helper gera automaticamente __RequestVerificationToken. *@
+    <label asp-for="Name">Nome fictício</label>
+    <input asp-for="Name" autocomplete="off" />
+    <span class="error" asp-validation-for="Name"></span>
+    <button type="submit">Guardar alteração</button>
+  </form>
+  <p class="note">Abre as ferramentas de programador do navegador e inspeciona o formulário: encontrarás o campo oculto <code>__RequestVerificationToken</code>.</p>
+  <p>Experimenta também enviar um POST sem token (ver instruções no README): o servidor deverá responder com <strong>HTTP 400</strong>.</p>
+  <small>Sem autenticação nem base de dados. Demonstração local, não uma aplicação de produção.</small>
+</main>
+</body>
+</html>
